@@ -1,0 +1,13 @@
+/* Remove custom cursor */
+/* (Nothing needed here now) */
+
+/* Make leaflet map tiles fill parent */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+}
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
