@@ -1,3 +1,7 @@
+//Join Page
+import Join from "./pages/Join.jsx";
+
+
 //Testing Supabase
 import TestSupabase from "./pages/TestSupabase.jsx";
 
@@ -37,6 +41,7 @@ const router = createBrowserRouter([
 
     children: [
       { index: true, element: <Home /> },
+      { path: "join", element: <Join /> },
       { path: "stations", element: <Stations /> },
       { path: "station/:id", element: <StationDetail /> },
       { path: "members", element: <Members /> },
