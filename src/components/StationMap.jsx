@@ -77,7 +77,7 @@ export default function StationMap() {
                   <strong>Visitors:</strong> {station.visitors}
                 </p>
                 <Link
-                  to={`/stations/${station.id}`}
+                  to={`/station/${station.id}`}
                   style={{ display: "inline-block", marginTop: "10px" }}
                 >
                   → View Details
