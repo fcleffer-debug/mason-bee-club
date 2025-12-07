@@ -76,12 +76,13 @@ export default function StationMap() {
                   <br />
                   <strong>Visitors:</strong> {station.visitors}
                 </p>
-                <Link
-                  to={`/station/${station.id}`}
+                <a
+                  href={`/station/${station.id}`}
                   style={{ display: "inline-block", marginTop: "10px" }}
                 >
                   → View Details
-                </Link>
+               </a>
+
               </div>
             </Popup>
           </Marker>
