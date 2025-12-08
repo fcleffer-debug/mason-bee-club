@@ -47,6 +47,19 @@ export default function Join() {
     setEmail("");
   };
 
+  // DEBUG: test Supabase connection on load
+useEffect(() => {
+  async function test() {
+    const { data, error } = await supabase
+      .from("subscribers")
+      .insert([{ email: "debug_test@masonbee.com" }]);
+
+    console.log("DEBUG INSERT RESULT:", { data, error });
+  }
+
+  test();
+}, []);
+
   return (
     <div style={{ maxWidth: 600, margin: "0 auto", padding: "2rem" }}>
       <h1>Join the Mason Bee Club 🐝</h1>
