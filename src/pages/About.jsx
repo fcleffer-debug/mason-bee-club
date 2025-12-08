@@ -14,8 +14,8 @@ export default function About() {
       <p className="text-lg mb-4">
         But they never did.
         At first I thought nothing had happened — until I noticed something subtle:
-        the cocoons *had* hatched. The bees *did* emerge. They just flew off and
-        lived their own little adventures somewhere nearby.
+        the cocoons <em>had</em> hatched. The bees <em>did</em> emerge — they just flew
+        off and lived their own little adventures somewhere nearby.
       </p>
 
       <p className="text-lg mb-6">
@@ -36,15 +36,13 @@ export default function About() {
         inside these boxes.
       </p>
 
-      <h2 className="text-2xl font-bold text-green-700 mt-10 mb-4">
-        The Vision
-      </h2>
+      <h2 className="text-2xl font-bold text-green-700 mt-10 mb-4">The Vision</h2>
 
       <ul className="list-disc pl-6 space-y-2 text-lg">
         <li>A community of backyard bee stations, each contributing data</li>
-        <li>Live camera streams or photos for bee tenders who want to share</li>
-        <li>Activity charts, hatching info, and environmental insights</li>
-        <li>A place for new bee stewards to learn and participate</li>
+        <li>Live camera feeds for bee tenders who want to share</li>
+        <li>Activity charts, hatch tracking, environmental insights</li>
+        <li>A place for new bee stewards to learn and get involved</li>
       </ul>
 
       <h2 className="text-2xl font-bold text-green-700 mt-10 mb-4">
@@ -54,22 +52,65 @@ export default function About() {
       <p className="text-lg mb-6">
         Mason bees are gentle, incredibly efficient pollinators. They’re easy to
         raise, fun to watch, and genuinely helpful to local ecosystems. By connecting
-        stations together, we can celebrate these tiny environmental heroes — and
-        help them thrive.
-      </p>
-
-      <p className="text-lg mb-6">
-        Whether you're a bee tender with a full station, a curious watcher exploring
-        the club, or someone who just loves helping pollinators…
+        stations together, we celebrate these tiny environmental heroes and help them
+        thrive.
       </p>
 
       <h2 className="text-3xl font-extrabold text-green-800 text-center mt-8 mb-4">
         Welcome to the Mason Bee Club.
       </h2>
 
-      <p className="text-lg text-center">
+      <p className="text-lg text-center mb-12">
         Let’s grow something amazing together. 🌱🐝
       </p>
+
+      {/* -----------------------------------------------------
+          CONTACT FORM SECTION
+      ------------------------------------------------------ */}
+      <div className="bg-white p-8 rounded-2xl shadow-md border border-green-200">
+        <h2 className="text-2xl font-bold text-green-700 mb-4">Want more information?</h2>
+        <p className="text-lg mb-4">
+          If you'd like updates, want to participate, or just have questions about
+          the project, you can send me a direct message:
+        </p>
+
+        <form
+          action="mailto:fcleffer@gmail.com"
+          method="POST"
+          encType="text/plain"
+          className="flex flex-col gap-4"
+        >
+          <input
+            type="text"
+            name="name"
+            required
+            placeholder="Your name"
+            className="border p-3 rounded-lg"
+          />
+
+          <input
+            type="email"
+            name="email"
+            required
+            placeholder="Your email"
+            className="border p-3 rounded-lg"
+          />
+
+          <textarea
+            name="message"
+            required
+            placeholder="Your message or questions"
+            className="border p-3 rounded-lg h-32"
+          />
+
+          <button
+            type="submit"
+            className="bg-green-700 text-white p-3 rounded-lg hover:bg-green-800"
+          >
+            Send Message
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

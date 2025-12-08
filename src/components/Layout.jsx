@@ -13,7 +13,6 @@ export default function Layout() {
         <div className="space-x-6 font-semibold">
           <Link to="/" className="hover:text-yellow-300">Home</Link>
           <Link to="/stations" className="hover:text-yellow-300">Stations</Link>
-          <Link to="/join" className="hover:text-yellow-300">Join</Link>
           <Link to="/members" className="hover:text-yellow-300">Members</Link>
           <Link to="/supplies" className="hover:text-yellow-300">Supplies</Link>   {/* ✅ NEW */}
           <Link to="/about" className="hover:text-yellow-300">About</Link>
