@@ -1,101 +1,91 @@
-import { MapContainer, TileLayer, Marker, Popup, Tooltip } from "react-leaflet";
+import React from "react";
 import { Link } from "react-router-dom";
-import L from "leaflet";
-import stations from "../data/stations";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 
-// Custom bee icon
-const beeIcon = new L.Icon({
-  iconUrl: "/assets/mason-bee-black.png",
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
-});
+// TEMP — Your station data
+const stations = [
+  {
+    id: "alpha",
+    name: "Station Alpha",
+    status: "Online",
+    coords: [36.787006, -119.80353],
+    cocoons: 8,
+    activity: 45,
+    environment: "Backyard Garden",
+  },
+  {
+    id: "beta",
+    name: "Station Beta",
+    status: "Offline",
+    coords: [36.80, -119.81],
+    cocoons: 2,
+    activity: 0,
+    environment: "Orchard",
+  },
+];
 
 export default function Stations() {
-  // Auto-center based on station average
-  const avgLat = stations.reduce((s, x) => s + x.lat, 0) / stations.length;
-  const avgLng = stations.reduce((s, x) => s + x.lng, 0) / stations.length;
-
   return (
-    <div className="p-6 space-y-8">
+    <div className="min-h-screen p-6 bg-green-50">
+      <h1 className="text-3xl font-bold mb-6 text-green-900 text-center">
+        Bee Stations
+      </h1>
 
-      {/* ---------- Map Section ---------- */}
-      <section className="h-[500px] rounded-2xl overflow-hidden shadow-lg border border-green-300">
+      {/* MAP CONTAINER */}
+      <div className="w-full mx-auto mb-10 rounded-2xl overflow-hidden shadow-lg"
+           style={{ height: "350px", maxWidth: "1000px" }}>
         <MapContainer
-          center={[avgLat, avgLng]}
+          center={[36.787006, -119.80353]}
           zoom={12}
-          style={{ height: "100%", width: "100%" }}
-          scrollWheelZoom={true}
+          className="w-full h-full"
         >
           <TileLayer
+            attribution='&copy; OpenStreetMap contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
 
-          {stations.map((station) => (
-            <Marker
-              key={station.id}
-              position={[station.lat, station.lng]}
-              icon={beeIcon}
-            >
-              <Tooltip direction="top">
-                <strong>{station.name}</strong>
-                <br />
-                {station.status === "online" ? "🟢 Online" : "🔴 Offline"}
-              </Tooltip>
-
+          {stations.map((s) => (
+            <Marker key={s.id} position={s.coords}>
               <Popup>
-                <div>
-                  <h3 className="font-semibold mb-1">{station.name}</h3>
-                  <p className="text-sm mb-2">
-                    <strong>Status:</strong> {station.status}
-                  </p>
-                  <Link
-                    to={`/stations/${station.id}`}
-                    className="text-green-700 underline"
-                  >
-                    → View Details
-                  </Link>
-                </div>
+                <strong>{s.name}</strong>
+                <br />
+                Status: {s.status}
               </Popup>
             </Marker>
           ))}
         </MapContainer>
-      </section>
+      </div>
 
-      {/* ---------- Station Cards Section ---------- */}
-      <section className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* STATION CARDS */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
         {stations.map((s) => (
           <div
             key={s.id}
-            className="bg-white shadow-md border border-green-200 rounded-2xl p-6 hover:shadow-xl transition"
+            className="bg-white shadow-md rounded-xl p-6 border border-green-200"
           >
-            <h2 className="text-xl font-semibold text-green-800">
-              {s.name}
-            </h2>
+            <h2 className="text-xl font-semibold text-green-800">{s.name}</h2>
 
-            <p className="text-sm text-gray-600 mt-2">
+            <p className="mt-2">
               <strong>Status:</strong>{" "}
-              {s.status === "online" ? "🟢 Online" : "🔴 Offline"}
+              <span className={s.status === "Online" ? "text-green-600" : "text-red-600"}>
+                {s.status}
+              </span>
             </p>
 
-            <p className="text-sm text-gray-600">
-              <strong>Location:</strong> {s.address}
-            </p>
-
-            <div className="mt-3 text-sm text-gray-700">
-              <p>🐝 Cocoons: {s.cocoons}</p>
-              <p>🌱 Activity: {s.activity}</p>
-            </div>
+            <p><strong>Environment:</strong> {s.environment}</p>
+            <p><strong>Cocoons:</strong> {s.cocoons}</p>
+            <p><strong>Activity Score:</strong> {s.activity}</p>
 
             <Link
               to={`/stations/${s.id}`}
-              className="inline-block mt-4 bg-green-700 text-white px-4 py-2 rounded-lg hover:bg-green-800"
+              className="inline-block mt-4 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
             >
               View Details
             </Link>
           </div>
         ))}
-      </section>
-
+      </div>
     </div>
   );
 }
