@@ -1,73 +1,45 @@
-import { useParams, Link } from "react-router-dom";
-import stations from "../data/stations.js";
+import { useParams } from "react-router-dom";
+import { stations } from "../data/stations";
 
 export default function StationDetail() {
   const { id } = useParams();
-
-  // Support numeric IDs and string slugs (e.g., "alpha")
-  const station = stations.find((s) =>
-    String(s.id).toLowerCase() === String(id).toLowerCase()
-  );
+  const station = stations.find((s) => s.id === id);
 
   if (!station) {
-    return (
-      <div className="p-10 text-center">
-        <h1 className="text-3xl font-bold text-red-600">
-          Station Not Found
-        </h1>
-        <Link to="/stations" className="text-green-700 underline">
-          Back to Stations
-        </Link>
-      </div>
-    );
+    return <h1>Station not found.</h1>;
   }
 
   return (
-    <div className="p-10 max-w-4xl mx-auto">
-      <h1 className="text-4xl font-bold text-green-800 mb-6">
-        {station.name} — Details
-      </h1>
+    <div className="p-8">
+      <h1 className="text-3xl font-bold mb-4">{station.name}</h1>
 
-      {/* Location */}
-      <div className="bg-white rounded-2xl shadow p-6 border border-green-200 mb-8">
-        <h2 className="text-2xl font-semibold text-green-700 mb-2">
-          Location
-        </h2>
-        <p><strong>Address:</strong> {station.address}</p>
-        <p><strong>Latitude:</strong> {station.lat}</p>
-        <p><strong>Longitude:</strong> {station.lng}</p>
-      </div>
+      <p><strong>Status:</strong> {station.status}</p>
+      <p><strong>Location:</strong> {station.location}</p>
+      <p><strong>Build Type:</strong> {station.buildType}</p>
+      <p><strong>Environment:</strong> {station.environment}</p>
+      <p><strong>Serial Number:</strong> {station.serial}</p>
+      <p><strong>Software Version:</strong> {station.software}</p>
 
-      {/* Bee Stats */}
-      <div className="bg-white rounded-2xl shadow p-6 border border-green-200 mb-8">
-        <h2 className="text-2xl font-semibold text-green-700 mb-4">
-          Bee Statistics
-        </h2>
-        <ul className="list-disc pl-6 space-y-1">
-          <li><strong>Tubes:</strong> {station.tubes}</li>
-          <li><strong>Activity:</strong> {station.activity}</li>
-        </ul>
-      </div>
+      <h2 className="text-xl font-semibold mt-6">Sensors</h2>
+      <ul className="list-disc ml-6">
+        <li>Temperature: {station.sensors.temperature ? "Yes" : "No"}</li>
+        <li>Humidity: {station.sensors.humidity ? "Yes" : "No"}</li>
+        <li>Light: {station.sensors.light ? "Yes" : "No"}</li>
+        <li>Camera: {station.sensors.camera}</li>
+      </ul>
 
-      {/* Tools */}
-      <div className="bg-white rounded-2xl shadow p-6 border border-green-200">
-        <h2 className="text-2xl font-semibold text-green-700 mb-4">
-          Tools
-        </h2>
+      <h2 className="text-xl font-semibold mt-6">Bee Activity</h2>
+      <p>Cocoon Count: {station.cocoonCount}</p>
+      <p>Activity Score: {station.activity}</p>
 
-        <a
-          href={station.cameraUrl || "#"}
-          className="text-green-700 underline"
-        >
-          📡 Live Stream (coming soon)
-        </a>
-
-        <div className="mt-6">
-          <Link to="/stations" className="text-gray-600 underline">
-            ← Back to all stations
-          </Link>
-        </div>
-      </div>
+      {station.clips.length > 0 && (
+        <>
+          <h2 className="text-xl font-semibold mt-6">Recent Video Clips</h2>
+          {station.clips.map((clip, index) => (
+            <video key={index} src={clip} controls className="my-4 w-full max-w-lg" />
+          ))}
+        </>
+      )}
     </div>
   );
 }

@@ -1,24 +1,47 @@
-const stations = [
+export const stations = [
   {
-    id: 1,
+    id: "alpha",
     name: "Station Alpha",
-    lat: 38.477783,
-    lng:  -122.751102,
     status: "online",
-    cocoons: 8,
-    hatchings: 4,
-    visitors: 20
+    location: "Fresno, CA",
+    lat: 36.787006,
+    lng: -119.803530,
+    cocoonCount: 8,
+    activity: 0.76,
+    buildType: "Mark I Station",
+    environment: "Backyard Garden",
+    serial: "MB-A1-2025",
+    software: "v1.0.3",
+    sensors: {
+      temperature: true,
+      humidity: true,
+      light: true,
+      camera: "Wide-angle 1080p stream",
+    },
+    clips: [
+      "/clips/alpha-1.mp4",
+      "/clips/alpha-2.mp4",
+    ],
   },
   {
-    id: 2,
+    id: "beta",
     name: "Station Beta",
-    lat: 38.477082,
-    lng: -122.754259,
     status: "offline",
-    cocoons: 2,
-    hatchings: 0,
-    visitors: 5
+    location: "Unknown",
+    lat: 0,
+    lng: 0,
+    cocoonCount: 2,
+    activity: 0.12,
+    buildType: "Mark II Prototype",
+    environment: "Orchard Edge",
+    serial: "MB-B2-2025",
+    software: "v1.0.3",
+    sensors: {
+      temperature: true,
+      humidity: true,
+      light: false,
+      camera: "None",
+    },
+    clips: [],
   }
 ];
-
-export default stations;

@@ -38,7 +38,7 @@ const router = createBrowserRouter([
 
       // Public Routes
       { path: "stations", element: <Stations /> },
-      { path: "station/:id", element: <StationDetail /> },   // ✅ FIXED DETAIL ROUTE
+      { path: "stations/:id", element: <StationDetail /> },   // ✅ FIXED DETAIL ROUTE
       { path: "members", element: <Members /> },
       { path: "supplies", element: <BeeSupplies /> },
       { path: "about", element: <About /> },
