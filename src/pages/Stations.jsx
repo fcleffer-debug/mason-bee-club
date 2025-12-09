@@ -2,6 +2,16 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import L from "leaflet";
+import beeIconImg from "../assets/mason-bee-tiny.png";
+
+// Custom Bee Marker Icon
+const beeIcon = new L.Icon({
+  iconUrl: beeIconImg,
+  iconSize: [40, 40],     // Adjust size
+  iconAnchor: [20, 40],   // Middle-bottom anchor
+  popupAnchor: [0, -40],  // Popup above the marker
+});
 
 // TEMP — Your station data
 const stations = [
@@ -46,14 +56,22 @@ export default function Stations() {
           />
 
           {stations.map((s) => (
-            <Marker key={s.id} position={s.coords}>
+            <Marker
+              key={s.id}
+              position={s.coords}
+              icon={beeIcon}
+            >
               <Popup>
-                <strong>{s.name}</strong>
-                <br />
-                Status: {s.status}
+                <div className="text-sm">
+                  <strong>{s.name}</strong><br />
+                  Status: {s.status}<br />
+                  Cocoons: {s.cocoons}<br />
+                  Activity: {s.activity}
+                </div>
               </Popup>
             </Marker>
           ))}
+
         </MapContainer>
       </div>
 
