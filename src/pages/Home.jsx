@@ -1,119 +1,115 @@
-import { Link } from "react-router-dom";
-import HeroBee from "../assets/mason-bee-circle.png";
+import React from "react";
+import meadowImg from "../assets/bee-meadow.png";
+import gardenImg from "../assets/bee-garden.png";
+import stationImg from "../assets/mason-bee-station.png";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-green-50 text-gray-900">
-
-      {/* HERO SECTION */}
-      <section className="text-center py-20 bg-gradient-to-b from-green-200 to-green-50">
+    <div className="w-full">
+      {/* -------------------- HERO -------------------- */}
+      <section className="relative h-[80vh] w-full overflow-hidden">
         <img
-          src={HeroBee}
-          alt="Bee Logo"
-          className="w-28 mx-auto mb-6 drop-shadow-xl"
+          src={meadowImg}
+          alt="Bee Meadow"
+          className="absolute inset-0 h-full w-full object-cover"
         />
+        <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]" />
 
-        <h1 className="text-5xl font-extrabold text-green-900 mb-4">
-          Welcome to the Mason Bee Club
-        </h1>
+        <div className="relative z-10 flex h-full flex-col items-center justify-center text-center px-6">
+          <h1 className="text-5xl md:text-6xl font-bold text-white drop-shadow-lg">
+            Welcome to the Mason Bee Club 🐝
+          </h1>
+          <p className="mt-4 text-xl md:text-2xl text-white/90 max-w-3xl drop-shadow">
+            Tracking the gentle, essential pollinators that keep our gardens healthy.
+          </p>
+        </div>
+      </section>
 
-        <p className="text-lg text-green-800 max-w-2xl mx-auto">
-          A community of nature lovers helping native mason bees thrive through
-          shared data, live camera feeds, educational resources, and
-          member-built bee houses across the region.
+      {/* -------------------- ABOUT MASON BEES -------------------- */}
+      <section className="px-6 py-16 max-w-5xl mx-auto">
+        <h2 className="text-3xl font-bold mb-4 text-green-800">What Are Mason Bees?</h2>
+        <p className="text-gray-700 text-lg leading-relaxed">
+          Mason bees are small, solitary pollinators known for their incredible efficiency—
+          one mason bee can pollinate as much as <strong>100 honeybees</strong>. They are gentle,
+          non-aggressive, and perfect for backyard gardens and orchards.
         </p>
 
-        <div className="mt-8 flex justify-center gap-4">
-          <Link
-            to="/stations"
-            className="bg-green-700 hover:bg-green-800 text-white px-6 py-3 rounded-lg shadow-md"
-          >
-            View Bee Stations
-          </Link>
-          <Link
-            to="/members"
-            className="bg-white border border-green-700 text-green-800 px-6 py-3 rounded-lg hover:bg-green-100 shadow"
-          >
-            Join the Club
-          </Link>
-        </div>
+        <p className="mt-4 text-gray-700 text-lg leading-relaxed">
+          This project aims to build a distributed network of Mason Bee stations that monitor
+          hatch rates, visitors, environmental conditions, and overall colony health. The more we
+          understand these valuable pollinators, the better we can protect them.
+        </p>
       </section>
 
-
-
-      {/* CLUB INFO + VISUALS */}
-      <section className="px-10 py-16">
-        <h2 className="text-3xl font-bold text-green-900 text-center mb-10">
-          What Is the Mason Bee Club?
+      {/* -------------------- IMAGE GALLERY -------------------- */}
+      <section className="bg-green-50 py-16">
+        <h2 className="text-center text-3xl font-bold text-green-800 mb-10">
+          Mason Bee Stations & Gardens
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-
-          <div className="bg-white p-6 rounded-xl shadow border border-green-200">
-            <h3 className="text-xl font-semibold text-green-800 mb-2">
-              🏠 Build & Connect Your Bee House
-            </h3>
-            <p>
-              Members build a club-standard mason bee station equipped with a
-              Raspberry Pi, camera module, and sensors. Each station connects to
-              the Bee Network and updates your personal dashboard.
-            </p>
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-6">
+          {/* Image 1 */}
+          <div className="rounded-xl overflow-hidden shadow-lg bg-white">
+            <img
+              src={stationImg}
+              alt="Mason Bee Station Render"
+              className="w-full h-56 object-cover"
+            />
+            <div className="p-4">
+              <h3 className="font-semibold text-lg">Mason Bee Station Concept</h3>
+              <p className="text-gray-600 text-sm mt-1">
+                The monitoring station where cocoons hatch and bees are tracked.
+              </p>
+            </div>
           </div>
 
-          <div className="bg-white p-6 rounded-xl shadow border border-green-200">
-            <h3 className="text-xl font-semibold text-green-800 mb-2">
-              📡 Live Monitoring
-            </h3>
-            <p>
-              Watch cocoons hatch, monitor tubes, track environmental stats, and
-              receive automated alerts when activity spikes or conditions change.
-            </p>
+          {/* Image 2 */}
+          <div className="rounded-xl overflow-hidden shadow-lg bg-white">
+            <img
+              src={gardenImg}
+              alt="Bee Garden"
+              className="w-full h-56 object-cover"
+            />
+            <div className="p-4">
+              <h3 className="font-semibold text-lg">Raised Bed Garden Habitat</h3>
+              <p className="text-gray-600 text-sm mt-1">
+                A natural environment full of pollinator-friendly plants.
+              </p>
+            </div>
           </div>
 
-          <div className="bg-white p-6 rounded-xl shadow border border-green-200">
-            <h3 className="text-xl font-semibold text-green-800 mb-2">
-              🌍 Club-Wide Bee Map
-            </h3>
-            <p>
-              Explore all member stations on an interactive map. View locations,
-              stats, and anonymized environmental readings to learn about your
-              local ecosystem.
-            </p>
+          {/* Image 3 */}
+          <div className="rounded-xl overflow-hidden shadow-lg bg-white md:col-span-2 lg:col-span-1">
+            <img
+              src={meadowImg}
+              alt="Bee Meadow"
+              className="w-full h-56 object-cover"
+            />
+            <div className="p-4">
+              <h3 className="font-semibold text-lg">Open Meadow Ecosystem</h3>
+              <p className="text-gray-600 text-sm mt-1">
+                A glimpse of the type of rich environment Mason Bees thrive in.
+              </p>
+            </div>
           </div>
-
         </div>
       </section>
 
+      {/* -------------------- CTA -------------------- */}
+      <section className="px-6 py-20 text-center max-w-3xl mx-auto">
+        <h2 className="text-3xl font-bold text-green-800">Want to Learn More?</h2>
+        <p className="text-gray-700 text-lg mt-4">
+          Visit the <strong>About</strong> page to get in touch or learn how you can participate
+          in this project.
+        </p>
 
-
-      {/* HOW TO GET STARTED */}
-      <section className="bg-green-100 py-16 px-10">
-        <h2 className="text-3xl font-bold text-green-900 text-center mb-8">
-          Interested in Joining?
-        </h2>
-
-        <div className="max-w-3xl mx-auto text-center">
-          <p className="text-lg mb-6 text-gray-700">
-            You can join as a watcher or build your own club-certified bee house.
-            We’ll provide build instructions, materials lists, and connection
-            steps — including QR activation.
-          </p>
-
-          <Link
-            to="/members"
-            className="bg-green-700 text-white px-8 py-4 rounded-lg hover:bg-green-800 shadow"
-          >
-            Get Started
-          </Link>
-        </div>
+        <a
+          href="/about"
+          className="inline-block mt-6 px-8 py-3 bg-green-700 text-white rounded-lg shadow-md hover:bg-green-800 transition"
+        >
+          About the Project
+        </a>
       </section>
-
-
-
-      {/* FOOTER */}
-      <footer className="text-center py-6 text-green-900 bg-green-200 mt-10">
-        Mason Bee Club © {new Date().getFullYear()} — helping bees, one tube at a time.
-      </footer>
     </div>
   );
 }
