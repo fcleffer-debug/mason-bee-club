@@ -1,72 +1,90 @@
-//Testing Supabase
-import TestSupabase from "./pages/TestSupabase.jsx";
-
 import { createBrowserRouter } from "react-router-dom";
 
 // Layout
-import Layout from "./components/Layout.jsx";
+import App from "./App.jsx";
 
 // Public Pages
 import Home from "./pages/Home.jsx";
-import Stations from "./pages/Stations.jsx";
-import StationDetail from "./pages/StationDetail.jsx";
-import Members from "./pages/Members.jsx";
 import About from "./pages/About.jsx";
-import BeeSupplies from "./pages/BeeSupplies.jsx";
-
-// Auth Pages
+import Join from "./pages/Join.jsx";
 import Login from "./pages/Login.jsx";
 import Signup from "./pages/Signup.jsx";
+import BeeSupplies from "./pages/BeeSupplies.jsx";
 
-// Auth System
-import ProtectedRoute from "./auth/ProtectedRoute.jsx";
+// Member area
+import Members from "./pages/Members.jsx";
+import MemberPortal from "./pages/MemberPortal.jsx";
+import MemberDashboard from "./pages/MemberDashboard.jsx";
+import MemberMyStation from "./pages/member/MyStation.jsx";
+import MemberMyStats from "./pages/member/MyStats.jsx";
+import EditProfile from "./pages/member/EditProfile.jsx";
+import ConnectionStatus from "./pages/member/ConnectionStatus.jsx";
 
-// Member Dashboard + Subpages
-import MemberDashboard from "./pages/dashboard/MemberDashboard.jsx";
-import MyStation from "./pages/dashboard/MyStation.jsx";
-import MyStats from "./pages/dashboard/MyStats.jsx";
-import ConnectionStatus from "./pages/dashboard/ConnectionStatus.jsx";
-import EditProfile from "./pages/dashboard/EditProfile.jsx";
+// Tender pages
+import { TenderLayout } from "./pages/tender/TenderLayout.jsx";
+import { MyStation as TenderMyStation } from "./pages/tender/MyStation.jsx";
+import { Logs } from "./pages/tender/Logs.jsx";
+import { StationSettings } from "./pages/tender/StationSettings.jsx";
+import { Diagnostics } from "./pages/tender/Diagnostics.jsx";
+import { LiveView } from "./pages/tender/LiveView.jsx";
 
-const router = createBrowserRouter([
+// Temporary stubbed “always logged in”
+import { DemoProtected as ProtectedRoute } from "./auth/DemoProtected.jsx";
+
+export const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
-
+    element: <App />,
     children: [
+      // -----------------------------
+      // PUBLIC SITE
+      // -----------------------------
       { index: true, element: <Home /> },
-
-      // Public Routes
-      { path: "stations", element: <Stations /> },
-      { path: "stations/:id", element: <StationDetail /> },   // ✅ FIXED DETAIL ROUTE
-      { path: "members", element: <Members /> },
-      { path: "supplies", element: <BeeSupplies /> },
       { path: "about", element: <About /> },
-
-      // Temporary testing page
-      { path: "test-supabase", element: <TestSupabase /> },
-
-      // Auth Routes
+      { path: "join", element: <Join /> },
       { path: "login", element: <Login /> },
       { path: "signup", element: <Signup /> },
-    ],
-  },
+      { path: "bee-supplies", element: <BeeSupplies /> },
 
-  // Protected Member Area
-  {
-    path: "/member-dashboard",
-    element: (
-      <ProtectedRoute>
-        <MemberDashboard />
-      </ProtectedRoute>
-    ),
+      // -----------------------------
+      // MEMBER AREA
+      // -----------------------------
+      {
+        path: "members",
+        element: (
+          <ProtectedRoute>
+            <MemberPortal />
+          </ProtectedRoute>
+        ),
+        children: [
+          { index: true, element: <MemberDashboard /> },
+          { path: "dashboard", element: <MemberDashboard /> },
+          { path: "my-station", element: <MemberMyStation /> },
+          { path: "my-stats", element: <MemberMyStats /> },
+          { path: "edit-profile", element: <EditProfile /> },
+          { path: "connection", element: <ConnectionStatus /> },
+        ],
+      },
 
-    children: [
-      { index: true, element: <MyStation /> },
-      { path: "my-station", element: <MyStation /> },
-      { path: "my-stats", element: <MyStats /> },
-      { path: "connection", element: <ConnectionStatus /> },
-      { path: "edit-profile", element: <EditProfile /> },
+      // -----------------------------
+      // BEE TENDER PANEL
+      // -----------------------------
+      {
+        path: "tender",
+        element: (
+          <ProtectedRoute>
+            <TenderLayout />
+          </ProtectedRoute>
+        ),
+        children: [
+          { index: true, element: <TenderMyStation /> },
+          { path: "station", element: <TenderMyStation /> },
+          { path: "settings", element: <StationSettings /> },
+          { path: "live", element: <LiveView /> },
+          { path: "diagnostics", element: <Diagnostics /> },
+          { path: "logs", element: <Logs /> },
+        ],
+      },
     ],
   },
 ]);

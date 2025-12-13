@@ -7,17 +7,17 @@ export default function Home() {
   return (
     <div className="w-full">
       {/* -------------------- HERO -------------------- */}
-      <section className="relative h-[80vh] w-full overflow-hidden">
-        <img
+      <section className="relative h-[60vh] max-h-[520px] w-full overflow-hidden">
+       <img
           src={meadowImg}
           alt="Bee Meadow"
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full object-cover object-top"
         />
         <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]" />
 
         <div className="relative z-10 flex h-full flex-col items-center justify-center text-center px-6">
           <h1 className="text-5xl md:text-6xl font-bold text-white drop-shadow-lg">
-            Welcome to the Mason Bee Club 🐝
+            Welcome to the Mason Bee Club
           </h1>
           <p className="mt-4 text-xl md:text-2xl text-white/90 max-w-3xl drop-shadow">
             Tracking the gentle, essential pollinators that keep our gardens healthy.
@@ -25,21 +25,43 @@ export default function Home() {
         </div>
       </section>
 
-      {/* -------------------- ABOUT MASON BEES -------------------- */}
-      <section className="px-6 py-16 max-w-5xl mx-auto">
-        <h2 className="text-3xl font-bold mb-4 text-green-800">What Are Mason Bees?</h2>
-        <p className="text-gray-700 text-lg leading-relaxed">
-          Mason bees are small, solitary pollinators known for their incredible efficiency—
-          one mason bee can pollinate as much as <strong>100 honeybees</strong>. They are gentle,
-          non-aggressive, and perfect for backyard gardens and orchards.
-        </p>
+      {/* -------------------- WHAT ARE MASON BEES -------------------- */}
+<section className="max-w-6xl mx-auto px-6 py-16">
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
 
-        <p className="mt-4 text-gray-700 text-lg leading-relaxed">
-          This project aims to build a distributed network of Mason Bee stations that monitor
-          hatch rates, visitors, environmental conditions, and overall colony health. The more we
-          understand these valuable pollinators, the better we can protect them.
-        </p>
-      </section>
+    {/* Image */}
+    <div className="flex justify-center">
+      <img
+        src="/src/assets/mason-bee-tubes.png"
+        alt="Mason bee nesting tubes"
+        className="w-full max-w-md rounded-xl shadow-md"
+      />
+    </div>
+
+    {/* Text */}
+    <div>
+      <h2 className="text-3xl font-bold text-green-800 mb-4">
+        What Are Mason Bees?
+      </h2>
+
+      <p className="text-gray-800 leading-relaxed mb-4">
+        Mason bees are small, solitary pollinators known for their incredible
+        efficiency—one mason bee can pollinate as much as{" "}
+        <strong>100 honeybees</strong>. They are gentle, non-aggressive, and
+        perfect for backyard gardens and orchards.
+      </p>
+
+      <p className="text-gray-700 leading-relaxed">
+        This project aims to build a distributed network of Mason Bee stations
+        that monitor hatch rates, visitors, environmental conditions, and
+        overall colony health. The more we understand these valuable
+        pollinators, the better we can protect them.
+      </p>
+    </div>
+
+  </div>
+</section>
+
 
       {/* -------------------- IMAGE GALLERY -------------------- */}
       <section className="bg-green-50 py-16">
