@@ -2,6 +2,7 @@ import React from "react";
 import meadowImg from "../assets/bee-meadow.png";
 import gardenImg from "../assets/bee-garden.png";
 import stationImg from "../assets/mason-bee-station.png";
+import masonBeeTubesImg from "../assets/mason-bee-tubes.png";
 
 export default function Home() {
   return (
@@ -32,10 +33,11 @@ export default function Home() {
     {/* Image */}
     <div className="flex justify-center">
       <img
-        src="/src/assets/mason-bee-tubes.png"
+        src={masonBeeTubesImg}
         alt="Mason bee nesting tubes"
-        className="w-full max-w-md rounded-xl shadow-md"
+        className="w-full max-w-sm rounded-lg shadow"
       />
+
     </div>
 
     {/* Text */}
