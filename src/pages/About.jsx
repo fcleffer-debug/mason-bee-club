@@ -2,24 +2,22 @@ import ericImg from "../assets/eric-callagher.png";
 
 export default function About() {
   return (
-    <div className="max-w-3xl mx-auto px-6 py-12 text-gray-800 leading-relaxed">
-      <h1 className="text-4xl font-extrabold text-green-800 mb-8">
+    <div className="max-w-4xl mx-auto px-6 py-12 text-gray-800 leading-relaxed">
+      <h1 className="text-4xl font-extrabold text-green-800 mb-10">
         About the Mason Bee Club
       </h1>
 
       {/* Intro section with image */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start mb-6">
+      <div className="flex flex-col md:flex-row gap-8 items-start mb-8">
         {/* Image */}
-        <div className="flex justify-center md:justify-start">
-          <img
-            src={ericImg}
-            alt="Eric, founder of the Mason Bee Club"
-            className="rounded-2xl shadow-lg max-w-xs"
-          />
-        </div>
+        <img
+          src={ericImg}
+          alt="Eric, founder of the Mason Bee Club"
+          className="w-64 h-64 object-cover rounded-2xl shadow-lg flex-shrink-0 mx-auto md:mx-0"
+        />
 
-        {/* Intro text */}
-        <div className="md:col-span-2">
+        {/* Text */}
+        <div>
           <p className="text-lg mb-4">
             Hi! I’m Eric — and this whole project started with a small box of mason
             bees. A friend gave me a bee fostering kit one spring. I set it up outside,
@@ -34,6 +32,9 @@ export default function About() {
           </p>
         </div>
       </div>
+
+      {/* Everything below stays the same */}
+
 
       {/* Everything below here is unchanged */}
       <p className="text-lg mb-6">
