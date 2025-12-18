@@ -6,6 +6,7 @@ import App from "./App.jsx";
 // Public Pages
 import Home from "./pages/Home.jsx";
 import About from "./pages/About.jsx";
+import Stations from "./pages/Stations.jsx";
 import Join from "./pages/Join.jsx";
 import Login from "./pages/Login.jsx";
 import Signup from "./pages/Signup.jsx";
@@ -42,6 +43,7 @@ export const router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: "about", element: <About /> },
       { path: "join", element: <Join /> },
+      { path: "stations", element: <Stations /> },
       { path: "login", element: <Login /> },
       { path: "signup", element: <Signup /> },
       { path: "bee-supplies", element: <BeeSupplies /> },
