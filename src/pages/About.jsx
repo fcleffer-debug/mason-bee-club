@@ -1,23 +1,41 @@
+import ericImg from "../assets/eric-callagher.png";
+
 export default function About() {
   return (
     <div className="max-w-3xl mx-auto px-6 py-12 text-gray-800 leading-relaxed">
-      <h1 className="text-4xl font-extrabold text-green-800 mb-6">
+      <h1 className="text-4xl font-extrabold text-green-800 mb-8">
         About the Mason Bee Club
       </h1>
 
-      <p className="text-lg mb-4">
-        Hi! I’m Eric — and this whole project started with a small box of mason
-        bees. A friend gave me a bee fostering kit one spring. I set it up outside,
-        watched over it, and waited excitedly for the tubes to fill…
-      </p>
+      {/* Intro section with image */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start mb-6">
+        {/* Image */}
+        <div className="flex justify-center md:justify-start">
+          <img
+            src={ericImg}
+            alt="Eric, founder of the Mason Bee Club"
+            className="rounded-2xl shadow-lg max-w-xs"
+          />
+        </div>
 
-      <p className="text-lg mb-4">
-        But they never did.
-        At first I thought nothing had happened — until I noticed something subtle:
-        the cocoons <em>had</em> hatched. The bees <em>did</em> emerge — they just flew
-        off and lived their own little adventures somewhere nearby.
-      </p>
+        {/* Intro text */}
+        <div className="md:col-span-2">
+          <p className="text-lg mb-4">
+            Hi! I’m Eric — and this whole project started with a small box of mason
+            bees. A friend gave me a bee fostering kit one spring. I set it up outside,
+            watched over it, and waited excitedly for the tubes to fill…
+          </p>
 
+          <p className="text-lg mb-4">
+            But they never did.
+            At first I thought nothing had happened — until I noticed something subtle:
+            the cocoons <em>had</em> hatched. The bees <em>did</em> emerge — they just flew
+            off and lived their own little adventures somewhere nearby.
+          </p>
+        </div>
+      </div>
+
+      {/* Everything below here is unchanged */}
       <p className="text-lg mb-6">
         That fascinated me. I’ve always loved watching wildlife — especially birds —
         and after seeing how tools like <strong>Birdfy</strong> let people observe and
