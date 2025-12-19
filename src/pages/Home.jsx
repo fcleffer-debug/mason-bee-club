@@ -4,7 +4,73 @@ import gardenImg from "../assets/bee-garden.png";
 import stationImg from "../assets/mason-bee-station.png";
 import masonBeeTubesImg from "../assets/mason-bee-tubes.png";
 
+import { useState } from "react";
+
+
 export default function Home() {
+  const [activeCard, setActiveCard] = useState(null);
+  const stationIdeas = [
+  {
+    id: "station",
+    title: "Bee Station Concept",
+    image: stationImg,
+    text: (
+      <>
+        <p className="mb-3">
+          The Bee Station concept was born from late-night Amazon searches and my
+          desire to design and invent something meaningful and technical.
+        </p>
+        <p className="mb-3">
+          I wanted a station that could observe, measure, and tell a story —
+          not just house bees.
+        </p>
+        <p>
+          <a href="/join" className="text-green-700 font-semibold underline">
+            Subscribe to follow the build diagrams, plans, and evolution →
+          </a>
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "garden",
+    title: "Backyard Gardens",
+    image: gardenImg,
+    text: (
+      <>
+        <p className="mb-3">
+          Mason bees thrive in rich, diverse garden habitats where flowers bloom
+          throughout the season.
+        </p>
+        <p>
+          Backyard gardens are perfect places to keep your bees active, healthy,
+          and close enough to observe daily.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "meadow",
+    title: "Open Meadows & Research",
+    image: meadowImg,
+    text: (
+      <>
+        <p className="mb-3">
+          With additional equipment like solar panels, batteries, and cellular
+          connectivity, stations can thrive far beyond backyards.
+        </p>
+        <p>
+          These setups open doors for research and long-term observation.
+          <strong> Interested in this kind of deployment?</strong>{" "}
+          <a href="/about" className="text-green-700 underline">
+            Connect with me.
+          </a>
+        </p>
+      </>
+    ),
+  },
+];
+
   return (
     <div className="w-full">
       {/* -------------------- HERO -------------------- */}
@@ -70,53 +136,40 @@ export default function Home() {
         <h2 className="text-center text-3xl font-bold text-green-800 mb-10">
           Mason Bee Stations & Gardens
         </h2>
+        {/* NEW interactive gallery */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+            {stationIdeas.map((item) => {
+              const isActive = activeCard === item.id;
 
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-6">
-          {/* Image 1 */}
-          <div className="rounded-xl overflow-hidden shadow-lg bg-white">
-            <img
-              src={stationImg}
-              alt="Mason Bee Station Render"
-              className="w-full h-56 object-cover"
-            />
-            <div className="p-4">
-              <h3 className="font-semibold text-lg">Mason Bee Station Concept</h3>
-              <p className="text-gray-600 text-sm mt-1">
-                The monitoring station where cocoons hatch and bees are tracked.
-              </p>
-            </div>
-          </div>
+              return (
+                <div
+                  key={item.id}
+                  onClick={() =>
+                    setActiveCard(isActive ? null : item.id)
+                  }
+                  className="cursor-pointer"
+                >
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className={`rounded-xl shadow-lg transition-transform duration-300 ${
+                      isActive ? "scale-105" : "hover:scale-102"
+                    }`}
+                  />
 
-          {/* Image 2 */}
-          <div className="rounded-xl overflow-hidden shadow-lg bg-white">
-            <img
-              src={gardenImg}
-              alt="Bee Garden"
-              className="w-full h-56 object-cover"
-            />
-            <div className="p-4">
-              <h3 className="font-semibold text-lg">Raised Bed Garden Habitat</h3>
-              <p className="text-gray-600 text-sm mt-1">
-                A natural environment full of pollinator-friendly plants.
-              </p>
-            </div>
-          </div>
+                  <h3 className="mt-4 text-xl font-semibold text-green-800 text-center">
+                    {item.title}
+                  </h3>
 
-          {/* Image 3 */}
-          <div className="rounded-xl overflow-hidden shadow-lg bg-white md:col-span-2 lg:col-span-1">
-            <img
-              src={meadowImg}
-              alt="Bee Meadow"
-              className="w-full h-56 object-cover"
-            />
-            <div className="p-4">
-              <h3 className="font-semibold text-lg">Open Meadow Ecosystem</h3>
-              <p className="text-gray-600 text-sm mt-1">
-                A glimpse of the type of rich environment Mason Bees thrive in.
-              </p>
-            </div>
+                  {isActive && (
+                    <div className="mt-4 bg-white p-5 rounded-xl shadow border border-green-200 text-gray-700">
+                      {item.text}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
-        </div>
       </section>
 
       {/* -------------------- CTA -------------------- */}
