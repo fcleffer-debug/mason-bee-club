@@ -33,12 +33,33 @@ const highlightedBeeIcon = new L.Icon({
   iconSize: [40, 40],
   iconAnchor: [20, 40],
 });
+function LifecycleBadge({ state }) {
+  const styles = {
+    draft: "bg-gray-200 text-gray-700",
+    claimed: "bg-yellow-200 text-yellow-800",
+    connected: "bg-blue-200 text-blue-800",
+    active: "bg-green-200 text-green-800",
+    paused: "bg-orange-200 text-orange-800",
+    archived: "bg-red-200 text-red-800",
+  };
+
+  return (
+    <span
+      className={`px-2 py-1 rounded-full text-xs font-semibold ${
+        styles[state] || "bg-gray-100 text-gray-600"
+      }`}
+    >
+      {state.toUpperCase()}
+    </span>
+  );
+}
 
 /* ---------------- TEMP STATION DATA ---------------- */
 const stations = [
   {
     id: "MBC-ALPHA-001",
     name: "Station Alpha",
+    lifecycle: "active", // draft | claimed | connected | active | paused | archived
     buildModel: "Alpha v1.2 (Redwood CNC)",
 
     status: {
@@ -76,6 +97,7 @@ const stations = [
   {
     id: "MBC-BETA-002",
     name: "Station Beta",
+    lifecycle: "active", // draft | claimed | connected | active | paused | archived
     buildModel: "Beta v1.0 (Field Kit)",
 
     status: {
@@ -157,6 +179,7 @@ export default function Stations() {
         <table className="w-full">
           <thead className="bg-green-100 text-green-900">
             <tr>
+              <th className="p-3">State</th>
               <th className="p-3">Station</th>
               <th className="p-3">Status</th>
               <th className="p-3">Environment</th>
@@ -180,6 +203,10 @@ export default function Stations() {
                 <td className="p-3">{s.location.environment}</td>
                 <td className="p-3 text-center">{s.nesting.cocoons}</td>
                 <td className="p-3 text-center">{s.activity.score}</td>
+                <td className="p-3">
+                  <LifecycleBadge state={s.lifecycle} />
+                </td>
+
               </tr>
             ))}
           </tbody>
@@ -195,6 +222,10 @@ export default function Stations() {
 
           <p><strong>Station ID:</strong> {selectedStation.id}</p>
           <p><strong>Build Model:</strong> {selectedStation.buildModel}</p>
+          <p className="flex items-center gap-2">
+            <strong>Lifecycle:</strong>
+            <LifecycleBadge state={selectedStation.lifecycle} />
+          </p>
 
           <hr className="my-4" />
 
@@ -221,6 +252,25 @@ export default function Stations() {
           <p><strong>Date Added:</strong> {selectedStation.nesting.dateAdded}</p>
           <p><strong>Nesting Materials:</strong> {selectedStation.nesting.materials.join(", ")}</p>
           <p><strong>Mud Room:</strong> {selectedStation.nesting.mudRoomStatus}</p>
+
+          {selectedStation.lifecycle === "draft" && (
+            <button className="mt-4 px-4 py-2 bg-green-600 text-white rounded-lg">
+              Purchase & Claim Station
+            </button>
+          )}
+
+          {selectedStation.lifecycle === "claimed" && (
+            <button className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg">
+              Connect Station
+            </button>
+          )}
+
+          {selectedStation.lifecycle === "active" && (
+            <button className="mt-4 px-4 py-2 bg-green-700 text-white rounded-lg">
+              View Live Data
+            </button>
+          )}
+
         </div>
       )}
     </div>
