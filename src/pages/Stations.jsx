@@ -1,15 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-
 import beeMarker from "../assets/bee-marker.png";
 
 /* ---------------- MAP CONTROLLER ---------------- */
 function MapController({ selectedStation }) {
   const map = useMap();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (selectedStation) {
       map.flyTo(selectedStation.location.coords, 14, {
         animate: true,
@@ -33,6 +32,8 @@ const highlightedBeeIcon = new L.Icon({
   iconSize: [40, 40],
   iconAnchor: [20, 40],
 });
+
+/* ---------------- LIFECYCLE BADGE ---------------- */
 function LifecycleBadge({ state }) {
   const styles = {
     draft: "bg-gray-200 text-gray-700",
@@ -59,7 +60,7 @@ const stations = [
   {
     id: "MBC-ALPHA-001",
     name: "Station Alpha",
-    lifecycle: "active", // draft | claimed | connected | active | paused | archived
+    lifecycle: "active",
     buildModel: "Alpha v1.2 (Redwood CNC)",
 
     status: {
@@ -92,30 +93,12 @@ const stations = [
     activity: {
       score: 45,
     },
-
-    timeline: [
-      {
-        ts: "2025-04-12T09:12:00-07:00",
-        type: "activity",
-        message: "First emergence observed in nesting tube B3",
-      },
-      {
-        ts: "2025-04-11T16:40:00-07:00",
-        type: "sensor",
-        message: "Temperature spike detected (72°F → 81°F)",
-      },
-      {
-        ts: "2025-04-10T08:15:00-07:00",
-        type: "system",
-        message: "Firmware updated to beeOS 0.9.4",
-      },
-    ],
   },
 
   {
     id: "MBC-BETA-002",
     name: "Station Beta",
-    lifecycle: "active", // draft | claimed | connected | active | paused | archived
+    lifecycle: "active",
     buildModel: "Beta v1.0 (Field Kit)",
 
     status: {
@@ -148,23 +131,6 @@ const stations = [
     activity: {
       score: 0,
     },
-    timeline: [
-      {
-        ts: "2025-04-12T09:12:00-07:00",
-        type: "activity",
-        message: "First emergence observed in nesting tube B3",
-      },
-      {
-        ts: "2025-04-11T16:40:00-07:00",
-        type: "sensor",
-        message: "Temperature spike detected (72°F → 81°F)",
-      },
-      {
-        ts: "2025-04-10T08:15:00-07:00",
-        type: "system",
-        message: "Firmware updated to beeOS 0.9.4",
-      },
-    ],
   },
 ];
 
@@ -179,8 +145,10 @@ export default function Stations() {
       </h1>
 
       {/* ---------------- MAP ---------------- */}
-      <div className="w-full mx-auto mb-10 rounded-2xl overflow-hidden shadow-lg"
-           style={{ height: "350px", maxWidth: "1000px" }}>
+      <div
+        className="w-full mx-auto mb-10 rounded-2xl overflow-hidden shadow-lg"
+        style={{ height: "350px", maxWidth: "1000px" }}
+      >
         <MapContainer
           center={[36.787006, -119.80353]}
           zoom={12}
@@ -195,12 +163,18 @@ export default function Stations() {
             <Marker
               key={s.id}
               position={s.location.coords}
-              icon={selectedStation?.id === s.id ? highlightedBeeIcon : normalBeeIcon}
+              icon={
+                selectedStation?.id === s.id
+                  ? highlightedBeeIcon
+                  : normalBeeIcon
+              }
               eventHandlers={{ click: () => setSelectedStation(s) }}
             >
               <Popup>
-                <strong>{s.name}</strong><br />
-                {s.status.online ? "Online" : "Offline"} · {s.status.connection}
+                <strong>{s.name}</strong>
+                <br />
+                {s.status.online ? "Online" : "Offline"} ·{" "}
+                {s.status.connection}
               </Popup>
             </Marker>
           ))}
@@ -214,12 +188,12 @@ export default function Stations() {
         <table className="w-full">
           <thead className="bg-green-100 text-green-900">
             <tr>
-              <th className="p-3">State</th>
               <th className="p-3">Station</th>
               <th className="p-3">Status</th>
               <th className="p-3">Environment</th>
               <th className="p-3 text-center">Cocoons</th>
               <th className="p-3 text-center">Activity</th>
+              <th className="p-3">Lifecycle</th>
             </tr>
           </thead>
           <tbody>
@@ -231,7 +205,11 @@ export default function Stations() {
               >
                 <td className="p-3 font-medium text-green-800">{s.name}</td>
                 <td className="p-3">
-                  <span className={s.status.online ? "text-green-600" : "text-red-600"}>
+                  <span
+                    className={
+                      s.status.online ? "text-green-600" : "text-red-600"
+                    }
+                  >
                     {s.status.online ? "Online" : "Offline"}
                   </span>
                 </td>
@@ -241,7 +219,6 @@ export default function Stations() {
                 <td className="p-3">
                   <LifecycleBadge state={s.lifecycle} />
                 </td>
-
               </tr>
             ))}
           </tbody>
@@ -287,27 +264,9 @@ export default function Stations() {
           <p><strong>Date Added:</strong> {selectedStation.nesting.dateAdded}</p>
           <p><strong>Nesting Materials:</strong> {selectedStation.nesting.materials.join(", ")}</p>
           <p><strong>Mud Room:</strong> {selectedStation.nesting.mudRoomStatus}</p>
-
-          {selectedStation.lifecycle === "draft" && (
-            <button className="mt-4 px-4 py-2 bg-green-600 text-white rounded-lg">
-              Purchase & Claim Station
-            </button>
-          )}
-
-          {selectedStation.lifecycle === "claimed" && (
-            <button className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg">
-              Connect Station
-            </button>
-          )}
-
-          {selectedStation.lifecycle === "active" && (
-            <button className="mt-4 px-4 py-2 bg-green-700 text-white rounded-lg">
-              View Live Data
-            </button>
-          )}
-
         </div>
       )}
     </div>
   );
 }
+
