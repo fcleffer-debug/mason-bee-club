@@ -1,10 +1,24 @@
 import { useState, useRef } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
 import beeMarker from "../assets/bee-marker.png";
 
+function MapController({ selectedStation }) {
+  const map = useMap();
+
+  React.useEffect(() => {
+    if (selectedStation) {
+      map.flyTo(selectedStation.coords, 14, {
+        animate: true,
+        duration: 1.2,
+      });
+    }
+  }, [selectedStation, map]);
+
+  return null;
+}
 
 // Custom Bee Marker Icons
 const normalBeeIcon = new L.Icon({
@@ -78,7 +92,11 @@ export default function Stations() {
               eventHandlers={{
                 click: () => {
                   setSelectedStation(s);
-                  mapRef.current?.setView(s.coords, 14, { animate: true });
+                  mapRef.current?.flyTo(s.coords, 14, {
+                    animate: true,
+                    duration: 0.75,
+                  });
+
                 },
               }}
             >
