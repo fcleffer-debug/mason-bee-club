@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+
 import beeMarker from "../assets/bee-marker.png";
 
 /* ---------------- MAP CONTROLLER ---------------- */
@@ -55,8 +56,8 @@ function LifecycleBadge({ state }) {
   );
 }
 
-/* ---------------- TEMP STATION DATA ---------------- */
-const stations = [
+/* ---------------- TEMP MOCK DATA ---------------- */
+const MOCK_STATIONS = [
   {
     id: "MBC-ALPHA-001",
     name: "Station Alpha",
@@ -94,49 +95,17 @@ const stations = [
       score: 45,
     },
   },
-
-  {
-    id: "MBC-BETA-002",
-    name: "Station Beta",
-    lifecycle: "active",
-    buildModel: "Beta v1.0 (Field Kit)",
-
-    status: {
-      connection: "Cellular",
-      online: false,
-      lastSeen: "2025-04-09 18:02",
-      firmware: "beeOS 0.8.9",
-    },
-
-    location: {
-      county: "Fresno County, CA",
-      environment: "Orchard",
-      coords: [36.8, -119.81],
-    },
-
-    environmentData: {
-      temperatureF: 72.1,
-      humidityPct: 41,
-      lightLevel: "High",
-    },
-
-    nesting: {
-      cocoons: 2,
-      species: "Osmia lignaria",
-      dateAdded: "2025-03-25",
-      materials: ["Bamboo"],
-      mudRoomStatus: "Dry",
-    },
-
-    activity: {
-      score: 0,
-    },
-  },
 ];
 
 /* ===================== PAGE ===================== */
 export default function Stations() {
+  const [stations, setStations] = useState([]);
   const [selectedStation, setSelectedStation] = useState(null);
+
+  useEffect(() => {
+    // later: replace with getStations()
+    setStations(MOCK_STATIONS);
+  }, []);
 
   return (
     <div className="min-h-screen p-6 bg-green-50">
@@ -269,4 +238,3 @@ export default function Stations() {
     </div>
   );
 }
-
