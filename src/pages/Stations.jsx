@@ -92,6 +92,24 @@ const stations = [
     activity: {
       score: 45,
     },
+
+    timeline: [
+      {
+        ts: "2025-04-12T09:12:00-07:00",
+        type: "activity",
+        message: "First emergence observed in nesting tube B3",
+      },
+      {
+        ts: "2025-04-11T16:40:00-07:00",
+        type: "sensor",
+        message: "Temperature spike detected (72°F → 81°F)",
+      },
+      {
+        ts: "2025-04-10T08:15:00-07:00",
+        type: "system",
+        message: "Firmware updated to beeOS 0.9.4",
+      },
+    ],
   },
 
   {
@@ -130,6 +148,23 @@ const stations = [
     activity: {
       score: 0,
     },
+    timeline: [
+      {
+        ts: "2025-04-12T09:12:00-07:00",
+        type: "activity",
+        message: "First emergence observed in nesting tube B3",
+      },
+      {
+        ts: "2025-04-11T16:40:00-07:00",
+        type: "sensor",
+        message: "Temperature spike detected (72°F → 81°F)",
+      },
+      {
+        ts: "2025-04-10T08:15:00-07:00",
+        type: "system",
+        message: "Firmware updated to beeOS 0.9.4",
+      },
+    ],
   },
 ];
 
