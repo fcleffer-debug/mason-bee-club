@@ -19,7 +19,7 @@ const stations = [
     location: {
       county: "Sonoma County, CA",
       environment: "Backyard Garden",
-      coords: [36.787006, -119.80353],
+      coords: [38.47779, -122.75111],
     },
 
     environmentData: {
@@ -46,12 +46,12 @@ const stations = [
   {
     id: "MBC-BETA-002",
     name: "Station Beta",
-    lifecycle: "paused",
+    lifecycle: "active",
     buildModel: "Beta v1.0 (Field Kit)",
 
     status: {
       connection: "Cellular",
-      online: false,
+      online: true,
       lastSeen: "2025-04-09 18:02",
       firmware: "beeOS 0.8.9",
     },
