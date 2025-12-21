@@ -61,7 +61,7 @@ const MOCK_STATIONS = [
   {
     id: "MBC-ALPHA-001",
     name: "Station Alpha",
-    lifecycle: "active",
+    lifecycle: "Demo",
     buildModel: "Alpha v1.2 (Redwood CNC)",
 
     status: {
@@ -101,7 +101,7 @@ const MOCK_STATIONS = [
   {
     id: "MBC-BETA-002",
     name: "Station Beta",
-    lifecycle: "active",
+    lifecycle: "Demo",
     buildModel: "Beta v1.0 (Field Kit)",
 
     status: {
