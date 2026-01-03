@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { supabase } from "../supabaseClient";
 
 export default function Join() {
@@ -8,71 +8,56 @@ export default function Join() {
 
   const handleJoin = async (e) => {
     e.preventDefault();
+
+    if (!email) return;
+
     setStatus("loading");
 
-    // 1. Insert subscriber into Supabase
+    /* -------------------------------------------------
+       1. Insert or update subscriber (SOURCE OF TRUTH)
+    -------------------------------------------------- */
     const { error: dbError } = await supabase
-        .from("subscribers")
-        .upsert(
-          [{ email }],
-          { onConflict: "email" }
-        );
-
-    if (dbError) {
-      console.error("Supabase Error:", dbError);
-      setStatus("error");
-      return;
-    }
-
-    // 2. Trigger welcome email via Supabase Edge Function
-    try {
-      const response = await fetch(
-        "https://wlbwsujxzaiigbjrjhfn.supabase.co/functions/v1/welcome-email",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-          },
-          body: JSON.stringify({ email }),
-        }
+      .from("subscribers")
+      .upsert(
+        [{ email }],
+        { onConflict: "email" }
       );
 
-      const result = await response.json();
-
-      if (!response.ok || !result.success) {
-        console.error("Edge Function Error:", result);
-        setStatus("error");
-        return;
-      }
-    } catch (err) {
-      console.error("Edge Function Fetch Failed:", err);
+    if (dbError) {
+      console.error("Supabase insert failed:", dbError);
       setStatus("error");
       return;
     }
 
+    /* -------------------------------------------------
+       2. Fire-and-forget welcome email (NON-BLOCKING)
+    -------------------------------------------------- */
+    fetch(
+      "https://wlbwsujxzaiigbjrjhfn.supabase.co/functions/v1/welcome-email",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify({ email }),
+      }
+    ).catch((err) => {
+      // Important: log but DO NOT fail the UI
+      console.warn("Welcome email failed (non-blocking):", err);
+    });
 
-    // 3. Show success
+    /* -------------------------------------------------
+       3. Success UI
+    -------------------------------------------------- */
     setStatus("success");
     setEmail("");
   };
 
-  // DEBUG: test Supabase connection on load
-useEffect(() => {
-  async function test() {
-    const { data, error } = await supabase
-      .from("subscribers")
-      .insert([{ email: "debug_test@masonbee.com" }]);
-
-    console.log("DEBUG INSERT RESULT:", { data, error });
-  }
-
-  test();
-}, []);
-
   return (
     <div style={{ maxWidth: 600, margin: "0 auto", padding: "2rem" }}>
       <h1>Join the Mason Bee Club 🐝</h1>
+
       <p>
         Enter your email to join the beta! The club is early, but we’ll notify
         you as features launch and your bee data becomes available.
@@ -85,8 +70,9 @@ useEffect(() => {
           placeholder="you@example.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          disabled={status === "loading"}
           style={{
-            padding: "0.5rem",
+            padding: "0.6rem",
             width: "100%",
             borderRadius: "6px",
             border: "1px solid #ccc",
@@ -103,7 +89,7 @@ useEffect(() => {
             color: "white",
             border: "none",
             borderRadius: "6px",
-            cursor: "pointer",
+            cursor: status === "loading" ? "not-allowed" : "pointer",
           }}
         >
           {status === "loading" ? "Joining..." : "Join the Club"}
@@ -113,13 +99,13 @@ useEffect(() => {
       {/* Status Messages */}
       {status === "success" && (
         <p style={{ marginTop: "1rem", color: "green" }}>
-          🎉 You’re in! Check your email for a welcome message.
+          🎉 You’re in! We’ll be in touch soon.
         </p>
       )}
 
       {status === "error" && (
         <p style={{ marginTop: "1rem", color: "red" }}>
-          ❌ Something went wrong — try again.
+          ❌ Something went wrong — please try again.
         </p>
       )}
     </div>
