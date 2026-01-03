@@ -21,26 +21,33 @@ export default function Join() {
       return;
     }
 
-    // 2. Trigger welcome email through Edge API
+    // 2. Trigger welcome email via Supabase Edge Function
     try {
-      const response = await fetch("/api/supabase-email-handler", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
+      const response = await fetch(
+        "https://wlbwsujxzaiigbjrjhfn.supabase.co/functions/v1/welcome-email",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          },
+          body: JSON.stringify({ email }),
+        }
+      );
 
       const result = await response.json();
 
-      if (!result.success) {
-        console.error("Email API Failure:", result.error);
+      if (!response.ok || !result.success) {
+        console.error("Edge Function Error:", result);
         setStatus("error");
         return;
       }
     } catch (err) {
-      console.error("API Error:", err);
+      console.error("Edge Function Fetch Failed:", err);
       setStatus("error");
       return;
     }
+
 
     // 3. Show success
     setStatus("success");

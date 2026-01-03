@@ -1,10 +1,10 @@
- export const config = {
+export const config = {
   runtime: "edge",
 };
 
 export default async function handler(req) {
   try {
-    const { email } = await req.json();
+    const { email, source = "unknown" } = await req.json();
 
     if (!email) {
       return new Response(
@@ -13,8 +13,15 @@ export default async function handler(req) {
       );
     }
 
-    const supabaseUrl = process.env.VITE_SUPABASE_URL;
-    const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
+    const supabaseUrl = process.env.SUPABASE_URL;
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+    if (!supabaseUrl || !supabaseKey) {
+      return new Response(
+        JSON.stringify({ error: "Server misconfigured" }),
+        { status: 500 }
+      );
+    }
 
     const response = await fetch(`${supabaseUrl}/rest/v1/subscribers`, {
       method: "POST",
@@ -22,9 +29,12 @@ export default async function handler(req) {
         "Content-Type": "application/json",
         "apikey": supabaseKey,
         "Authorization": `Bearer ${supabaseKey}`,
-        "Prefer": "return=minimal",
+        "Prefer": "resolution=merge-duplicates",
       },
-      body: JSON.stringify({ email }),
+      body: JSON.stringify({
+        email,
+        source,
+      }),
     });
 
     if (!response.ok) {
@@ -35,6 +45,7 @@ export default async function handler(req) {
       );
     }
 
+    // TODO: send confirmation email here (next step)
     return new Response(
       JSON.stringify({ success: true }),
       { status: 200 }
