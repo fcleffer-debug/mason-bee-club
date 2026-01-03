@@ -12,8 +12,11 @@ export default function Join() {
 
     // 1. Insert subscriber into Supabase
     const { error: dbError } = await supabase
-      .from("subscribers")
-      .insert([{ email }]);
+        .from("subscribers")
+        .upsert(
+          [{ email }],
+          { onConflict: "email" }
+        );
 
     if (dbError) {
       console.error("Supabase Error:", dbError);
