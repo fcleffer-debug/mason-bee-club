@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { supabase } from "../supabaseClient";
 
 export default function Join() {
   const [email, setEmail] = useState("");
@@ -13,45 +12,32 @@ export default function Join() {
 
     setStatus("loading");
 
-    /* -------------------------------------------------
-       1. Insert or update subscriber (SOURCE OF TRUTH)
-    -------------------------------------------------- */
-    const { error: dbError } = await supabase
-      .from("subscribers")
-      .upsert(
-        [{ email }],
-        { onConflict: "email" }
+    try {
+      const response = await fetch(
+        "https://wlbwsujxzaiigbjrjhfn.supabase.co/functions/v1/welcome-email",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        }
       );
 
-    if (dbError) {
-      console.error("Supabase insert failed:", dbError);
-      setStatus("error");
-      return;
-    }
+      const result = await response.json();
 
-    /* -------------------------------------------------
-       2. Fire-and-forget welcome email (NON-BLOCKING)
-    -------------------------------------------------- */
-    fetch(
-      "https://wlbwsujxzaiigbjrjhfn.supabase.co/functions/v1/welcome-email",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-        },
-        body: JSON.stringify({ email }),
+      if (!response.ok || !result?.success) {
+        console.error("Edge Function Error:", result);
+        setStatus("error");
+        return;
       }
-    ).catch((err) => {
-      // Important: log but DO NOT fail the UI
-      console.warn("Welcome email failed (non-blocking):", err);
-    });
 
-    /* -------------------------------------------------
-       3. Success UI
-    -------------------------------------------------- */
-    setStatus("success");
-    setEmail("");
+      setStatus("success");
+      setEmail("");
+    } catch (err) {
+      console.error("Network / Fetch Error:", err);
+      setStatus("error");
+    }
   };
 
   return (
@@ -59,8 +45,8 @@ export default function Join() {
       <h1>Join the Mason Bee Club 🐝</h1>
 
       <p>
-        Enter your email to join the beta! The club is early, but we’ll notify
-        you as features launch and your bee data becomes available.
+        Enter your email to join the beta! The club is early, but we’ll notify you
+        as features launch and your bee data becomes available.
       </p>
 
       <form onSubmit={handleJoin} style={{ marginTop: "1.5rem" }}>
@@ -72,7 +58,7 @@ export default function Join() {
           onChange={(e) => setEmail(e.target.value)}
           disabled={status === "loading"}
           style={{
-            padding: "0.6rem",
+            padding: "0.5rem",
             width: "100%",
             borderRadius: "6px",
             border: "1px solid #ccc",
@@ -89,17 +75,16 @@ export default function Join() {
             color: "white",
             border: "none",
             borderRadius: "6px",
-            cursor: status === "loading" ? "not-allowed" : "pointer",
+            cursor: "pointer",
           }}
         >
           {status === "loading" ? "Joining..." : "Join the Club"}
         </button>
       </form>
 
-      {/* Status Messages */}
       {status === "success" && (
         <p style={{ marginTop: "1rem", color: "green" }}>
-          🎉 You’re in! We’ll be in touch soon.
+          🎉 You’re in! Check your email for a welcome message.
         </p>
       )}
 
