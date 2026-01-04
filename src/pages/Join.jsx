@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { supabase } from "../supabaseClient";
 
 export default function Join() {
   const [email, setEmail] = useState("");
@@ -7,46 +8,27 @@ export default function Join() {
 
   const handleJoin = async (e) => {
     e.preventDefault();
-
-    if (!email) return;
-
     setStatus("loading");
 
-    try {
-      const response = await fetch(
-        "https://wlbwsujxzaiigbjrjhfn.supabase.co/functions/v1/welcome-email",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email }),
-        }
-      );
+    const { error } = await supabase
+      .from("subscribers")
+      .upsert([{ email }], { onConflict: "email" });
 
-      const result = await response.json();
-
-      if (!response.ok || !result?.success) {
-        console.error("Edge Function Error:", result);
-        setStatus("error");
-        return;
-      }
-
-      setStatus("success");
-      setEmail("");
-    } catch (err) {
-      console.error("Network / Fetch Error:", err);
+    if (error) {
+      console.error("Supabase error:", error);
       setStatus("error");
+      return;
     }
+
+    setStatus("success");
+    setEmail("");
   };
 
   return (
     <div style={{ maxWidth: 600, margin: "0 auto", padding: "2rem" }}>
       <h1>Join the Mason Bee Club 🐝</h1>
-
       <p>
-        Enter your email to join the beta! The club is early, but we’ll notify you
-        as features launch and your bee data becomes available.
+        Join for free updates, newsletters, and Mason Bee Club announcements.
       </p>
 
       <form onSubmit={handleJoin} style={{ marginTop: "1.5rem" }}>
@@ -56,7 +38,6 @@ export default function Join() {
           placeholder="you@example.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          disabled={status === "loading"}
           style={{
             padding: "0.5rem",
             width: "100%",
@@ -84,7 +65,7 @@ export default function Join() {
 
       {status === "success" && (
         <p style={{ marginTop: "1rem", color: "green" }}>
-          🎉 You’re in! Check your email for a welcome message.
+          🎉 You’re in! We’ll be in touch soon.
         </p>
       )}
 
