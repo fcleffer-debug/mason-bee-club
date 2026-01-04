@@ -12,7 +12,8 @@ export default function Join() {
     // 1️⃣ Save email to database
     const { error } = await supabase
       .from("subscribers")
-      .upsert([{ email }], { onConflict: "email" });
+      .insert([{ email }]);
+
 
     if (error) {
       console.error("Supabase error:", error);
