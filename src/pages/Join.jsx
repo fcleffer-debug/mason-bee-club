@@ -4,12 +4,12 @@ import { supabase } from "../supabaseClient";
 export default function Join() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("idle");
-  // idle | loading | success | error
 
   const handleJoin = async (e) => {
     e.preventDefault();
     setStatus("loading");
 
+    // 1️⃣ Save email to database
     const { error } = await supabase
       .from("subscribers")
       .upsert([{ email }], { onConflict: "email" });
@@ -20,6 +20,34 @@ export default function Join() {
       return;
     }
 
+    // 2️⃣ Call Edge Function to send welcome email
+    try {
+      const res = await fetch(
+        "https://wlbwsujxzaiigbjrjhfn.supabase.co/functions/v1/welcome-email",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+            "apikey": import.meta.env.VITE_SUPABASE_ANON_KEY,
+          },
+          body: JSON.stringify({ email }),
+        }
+      );
+
+      if (!res.ok) {
+        const text = await res.text();
+        console.error("Welcome email failed:", text);
+        setStatus("error");
+        return;
+      }
+    } catch (err) {
+      console.error("Fetch error:", err);
+      setStatus("error");
+      return;
+    }
+
+    // 3️⃣ Success
     setStatus("success");
     setEmail("");
   };
@@ -65,7 +93,7 @@ export default function Join() {
 
       {status === "success" && (
         <p style={{ marginTop: "1rem", color: "green" }}>
-          🎉 You’re in! We’ll be in touch soon.
+          🎉 You’re in! Check your email for a welcome message.
         </p>
       )}
 
