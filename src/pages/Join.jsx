@@ -4,33 +4,32 @@ import { supabase } from "../supabaseClient";
 export default function Join() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("idle");
+  // idle | loading | success | error
 
   const handleJoin = async (e) => {
     e.preventDefault();
     setStatus("loading");
 
-    // 1️⃣ Save email to database
+    // 1️⃣ Insert subscriber (anon + RLS)
     const { error } = await supabase
       .from("subscribers")
       .insert([{ email }]);
 
-
     if (error) {
-      console.error("Supabase error:", error);
+      console.error("Supabase insert error:", error);
       setStatus("error");
       return;
     }
 
-    // 2️⃣ Call Edge Function to send welcome email
+    // 2️⃣ Call Edge Function (NO apikey header)
     try {
       const res = await fetch(
-        "https://wlbwsujxzaiigbjrjhfn.supabase.co/functions/v1/welcome-email",
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/welcome-email`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-            "apikey": import.meta.env.VITE_SUPABASE_ANON_KEY,
+            Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
           },
           body: JSON.stringify({ email }),
         }
@@ -43,7 +42,7 @@ export default function Join() {
         return;
       }
     } catch (err) {
-      console.error("Fetch error:", err);
+      console.error("Welcome email fetch error:", err);
       setStatus("error");
       return;
     }
