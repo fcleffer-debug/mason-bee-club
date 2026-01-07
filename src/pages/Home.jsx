@@ -1,3 +1,5 @@
+import SubscribeButton from "../components/SubscribeButton";
+
 import React from "react";
 import meadowImg from "../assets/bee-meadow.png";
 import gardenImg from "../assets/bee-garden.png";
@@ -25,10 +27,13 @@ export default function Home() {
           not just house bees.
         </p>
         <p>
-          <a href="/join" className="text-green-700 font-semibold underline">
-            Subscribe to follow the build diagrams, plans, and evolution →
-          </a>
+          Follow the build, plans, and evolution of the Bee Station.
         </p>
+
+      <div style={{ marginTop: "1rem" }}>
+        <SubscribeButton label="Subscribe for Updates" />
+      </div>
+
       </>
     ),
   },
@@ -46,6 +51,18 @@ export default function Home() {
           Backyard gardens are perfect places to keep your bees active, healthy,
           and close enough to observe daily.
         </p>
+
+        {/* CTA */}
+        <p className="mt-3 text-sm text-gray-700">
+          Want to set up your own backyard bee space?
+        </p>
+
+        <a
+          href="/supplies"
+          className="inline-block mt-1 text-green-700 font-semibold underline hover:text-green-900"
+        >
+          Explore recommended supplies →
+        </a>
       </>
     ),
   },
@@ -61,9 +78,10 @@ export default function Home() {
         </p>
         <p>
           These setups open doors for research and long-term observation.
-          <strong> Interested in this kind of deployment?</strong>{" "}
-          <a href="/about" className="text-green-700 underline">
-            Connect with me.
+          <strong>  Interested in this kind of deployment?</strong>{" "}
+          Explore real-world examples on the{" "}
+          <a href="/stations" className="text-green-700 underline font-medium">
+            Stations page.
           </a>
         </p>
       </>
@@ -75,11 +93,12 @@ export default function Home() {
     <div className="w-full">
       {/* -------------------- HERO -------------------- */}
       <section className="relative h-[60vh] max-h-[520px] w-full overflow-hidden">
+
        <img
           src={meadowImg}
           alt="Bee Meadow"
           className="absolute inset-0 h-full w-full object-cover object-top"
-        />
+       />
         <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]" />
 
         <div className="relative z-10 flex h-full flex-col items-center justify-center text-center px-6">
@@ -92,18 +111,21 @@ export default function Home() {
         </div>
       </section>
 
+<section className="py-6 flex justify-center">
+  <SubscribeButton label="Subscribe for Updates" />
+</section>
+
       {/* -------------------- WHAT ARE MASON BEES -------------------- */}
 <section className="max-w-6xl mx-auto px-6 py-16">
   <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
 
     {/* Image */}
-    <div className="flex justify-center">
+    <div className="w-full h-[340px] overflow-hidden rounded-xl">
       <img
         src={masonBeeTubesImg}
         alt="Mason bee nesting tubes"
         className="w-full max-w-sm rounded-lg shadow"
       />
-
     </div>
 
     {/* Text */}
@@ -147,15 +169,22 @@ export default function Home() {
                   onClick={() =>
                     setActiveCard(isActive ? null : item.id)
                   }
-                  className="cursor-pointer"
+                  className="cursor-pointer transition-all duration-300 hover:-translate-y-1"
+
                 >
+                <div className="w-full h-[340px] overflow-hidden rounded-xl">
                   <img
                     src={item.image}
                     alt={item.title}
-                    className={`rounded-xl shadow-lg transition-transform duration-300 ${
-                      isActive ? "scale-105" : "hover:scale-102"
+                    className={`w-full h-full object-cover rounded-xl shadow-md transition-all duration-300 ${
+                      isActive
+                        ? "scale-105 shadow-xl"
+                        : "hover:scale-[1.03] hover:shadow-lg"
                     }`}
+
                   />
+
+                 </div>
 
                   <h3 className="mt-4 text-xl font-semibold text-green-800 text-center">
                     {item.title}
