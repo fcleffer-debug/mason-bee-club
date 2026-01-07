@@ -7,6 +7,7 @@ import stationImg from "../assets/mason-bee-station.png";
 import masonBeeTubesImg from "../assets/mason-bee-tubes.png";
 
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 
 export default function Home() {
@@ -57,36 +58,46 @@ export default function Home() {
           Want to set up your own backyard bee space?
         </p>
 
-        <a
-          href="/supplies"
+        <Link
+          to="/bee-supplies"
+          onClick={(e) => e.stopPropagation()}
           className="inline-block mt-1 text-green-700 font-semibold underline hover:text-green-900"
         >
           Explore recommended supplies →
-        </a>
+        </Link>
+
+
       </>
     ),
   },
   {
-    id: "meadow",
-    title: "Open Meadows & Research",
-    image: meadowImg,
-    text: (
-      <>
-        <p className="mb-3">
-          With additional equipment like solar panels, batteries, and cellular
-          connectivity, stations can thrive far beyond backyards.
-        </p>
-        <p>
-          These setups open doors for research and long-term observation.
-          <strong>  Interested in this kind of deployment?</strong>{" "}
-          Explore real-world examples on the{" "}
-          <a href="/stations" className="text-green-700 underline font-medium">
-            Stations page.
-          </a>
-        </p>
-      </>
-    ),
-  },
+  id: "meadow",
+  title: "Open Meadows & Research",
+  image: meadowImg,
+  text: (
+    <>
+      <p className="mb-3">
+        With additional equipment like solar panels, batteries, and cellular
+        connectivity, stations can thrive far beyond backyards.
+      </p>
+
+      <p>
+        These setups open doors for research and long-term observation.
+        <strong> Interested in this kind of deployment?</strong>{" "}
+        Explore real-world examples on the{" "}
+        <Link
+          to="/stations"
+          onClick={(e) => e.stopPropagation()}
+          className="text-green-700 underline font-medium"
+        >
+          Stations page
+        </Link>
+        .
+      </p>
+    </>
+  ),
+},
+
 ];
 
   return (
